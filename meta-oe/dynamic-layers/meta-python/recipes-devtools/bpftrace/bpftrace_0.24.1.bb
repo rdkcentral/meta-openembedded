@@ -20,6 +20,7 @@ RDEPENDS:${PN}-ptest += "bpftool"
 
 SRC_URI = "git://github.com/iovisor/bpftrace;branch=release/0.24.x;protocol=https;tag=v${PV} \
            file://run-ptest \
+           file://0001-cmake-Add-BPF_CFLAGS-to-pass-flags-from-env.patch \
            file://0002-CMakeLists.txt-allow-to-set-BISON_FLAGS-like-l.patch \
 "
 SRCREV = "4c1f02a43f993758d445952ccd96e552752defec"
@@ -65,5 +66,4 @@ INHIBIT_PACKAGE_STRIP_FILES += "\
     ${PKGD}${PTEST_PATH}/tests/testprogs/uprobe_test \
 "
 
-WARN_QA:append = "${@bb.utils.contains('PTEST_ENABLED', '1', ' buildpaths', '', d)}"
-ERROR_QA:remove = "${@bb.utils.contains('PTEST_ENABLED', '1', 'buildpaths', '', d)}"
+export BPF_FLAGS = "${DEBUG_PREFIX_MAP}"

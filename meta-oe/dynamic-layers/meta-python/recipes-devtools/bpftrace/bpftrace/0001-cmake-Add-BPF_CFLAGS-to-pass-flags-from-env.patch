@@ -1,0 +1,27 @@
+From 7e21fcb2fc06a0da2850bbf7f1b04a9c148a0609 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 26 Oct 2025 20:06:42 -0700
+Subject: [PATCH] cmake: Add BPF_CFLAGS to pass flags from env
+
+This can be used to pass flags to remove absolute paths from
+debug info
+
+Upstream-Status: Pending
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ cmake/BuildBPF.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmake/BuildBPF.cmake b/cmake/BuildBPF.cmake
+index cb8cd687a..f72d96ecf 100644
+--- a/cmake/BuildBPF.cmake
++++ b/cmake/BuildBPF.cmake
+@@ -90,7 +90,7 @@ function(bpf NAME)
+     OUTPUT ${ARG_OBJECT}
+     DEPENDS ${ARG_SOURCE} ${ARG_DEPENDS}
+     # See above: fresh compilation and the use of `gcc`.
+-    COMMAND ${GCC} -Wno-attributes -g -I ${CMAKE_CURRENT_BINARY_DIR} -c ${CMAKE_CURRENT_SOURCE_DIR}/${ARG_SOURCE} -o ${CMAKE_CURRENT_BINARY_DIR}/${ARG_OBJECT}
++    COMMAND ${GCC} ${BPF_CFLAGS} -Wno-attributes -g -I ${CMAKE_CURRENT_BINARY_DIR} -c ${CMAKE_CURRENT_SOURCE_DIR}/${ARG_SOURCE} -o ${CMAKE_CURRENT_BINARY_DIR}/${ARG_OBJECT}
+     COMMAND cmake -E env LLVM_OBJCOPY=${LLVM_OBJCOPY} ${PAHOLE} -J ${CMAKE_CURRENT_BINARY_DIR}/${ARG_OBJECT}
+     VERBATIM
+   )
