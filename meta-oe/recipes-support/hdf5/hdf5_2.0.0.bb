@@ -7,9 +7,9 @@ SECTION = "libs"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=71a191398102f76050a4e56e78cb4891"
 
-inherit cmake siteinfo qemu multilib_header
+inherit cmake siteinfo qemu multilib_header multilib_script
 
-DEPENDS += "qemu-native zlib"
+DEPENDS += "qemu-native zlib pkgconfig-native"
 
 SRC_URI = "https://support.hdfgroup.org/releases/hdf5/v2_0/v2_0_0/downloads/${BPN}-${PV}.tar.gz \
            file://0002-Remove-suffix-shared-from-shared-library-name.patch \
@@ -48,7 +48,10 @@ do_configure:append() {
 do_install:append() {
     # Used for generating config files on target
     oe_multilib_header H5pubconf.h
+    sed -i -e 's|${RECIPE_SYSROOT_NATIVE}||g' ${D}${bindir}/h5cc
 }
+
+MULTILIB_SCRIPTS += "${PN}:${bindir}/h5cc"
 
 BBCLASSEXTEND = "native"
 
