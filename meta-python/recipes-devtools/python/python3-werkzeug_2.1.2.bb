@@ -18,7 +18,7 @@ SRC_URI += "file://CVE-2023-25577.patch \
             file://CVE-2024-34069-0002.patch \
             file://CVE-2024-49767.patch"
 
-SRC_URI[sha256sum] = "f8e89a20aeabbe8a893c24a461d3ee5dad2123b05cc6abd73ceed01d39c3ae74"
+SRC_URI[sha256sum] = "1ce08e8093ed67d638d63879fd1ba3735817f7a80de3674d293f5984f25fb6e6"
 
 inherit pypi setuptools3
 
