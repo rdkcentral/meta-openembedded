@@ -25,7 +25,7 @@ GNOMEBASEBUILDCLASS = "meson"
 
 inherit gnomebase gsettings gobject-introspection gettext features_check
 
-SRC_URI[archive.sha256sum] = "d1e240446b7f8cd8a3ff9daae336c1c9016193ba7e0769c79a5e6c03849022e5"
+SRC_URI[archive.sha256sum] = "d080e52f2c47fbfdf03248b11354d039b4aa453f1997288b30af841d6dcee6c3"
 
 # x11 is still manadatory - see meson.build
 REQUIRED_DISTRO_FEATURES = "wayland x11 polkit"
