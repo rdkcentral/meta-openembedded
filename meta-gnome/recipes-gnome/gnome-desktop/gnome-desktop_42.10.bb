@@ -16,7 +16,7 @@ REQUIRED_DISTRO_FEATURES += "gobject-introspection-data"
 
 GIR_MESON_OPTION = ""
 
-SRC_URI[archive.sha256sum] = "f3caa293a5e86f6ccad18f817273db1c67061e680d79d839aa8a7528e5bb26d6"
+SRC_URI[archive.sha256sum] = "c5afee410bcf07fc7742ff74d67feb86d09ace34e9ca9743f86ce179a4fc7199"
 SRC_URI += " \
     file://gnome-desktop-thumbnail-don-t-assume-time_t-is-long.patch \
     file://0001-meson.build-Disable-libseccomp-for-all-archs.patch \
