@@ -22,7 +22,7 @@ DEPENDS = " \
     libpcre2 \
 "
 
-SRC_URI[archive.sha256sum] = "8a9c8e5ef7a3a73b246a947e1190bb08ec98935af860cf0b3aa2fbf4606817a0"
+SRC_URI[archive.sha256sum] = "666e263c427b5ab0e772883626e59c53c2734099128fab2ccba2a758041e23f5"
 SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
 SRC_URI += "  file://0001-build-Fix-for-newer-meson.patch"
 
