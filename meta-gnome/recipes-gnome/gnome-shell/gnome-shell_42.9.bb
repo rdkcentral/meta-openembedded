@@ -31,7 +31,7 @@ GIR_MESON_OPTION = ""
 # gobject-introspection is mandatory and cannot be configured
 REQUIRED_DISTRO_FEATURES += "gobject-introspection-data"
 
-SRC_URI[archive.sha256sum] = "33d404fb3c93b9de42984f0110a2969d6a4a7247c27fe7f5e24c67ecfec75094"
+SRC_URI[archive.sha256sum] = "4545283fb8c16c3254b2dc1297ac1526f320988394be8ca60b171f5c0d3bbe7d"
 SRC_URI += "file://0001-Introduce-options-gjs_path-to-optionally-set-path-to.patch"
 SRC_URI += "file://0002-screencast-Correct-expected-bus-name-for-streams.patch"
 
