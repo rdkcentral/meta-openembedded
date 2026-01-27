@@ -95,6 +95,7 @@ FILES:${PN}:append = " \
     ${datadir}/gtk-4.0/emoji/ \
     ${datadir}/metainfo/ \
     ${datadir}/icons/hicolor/*/apps/org.gtk.PrintEditor4*.* \
+    ${libdir}/gtk-4.0/${LIBV}/media \
     ${libdir}/gtk-4.0/${LIBV}/printbackends \
     ${bindir}/gtk4-update-icon-cache \
     ${bindir}/gtk4-launch \
