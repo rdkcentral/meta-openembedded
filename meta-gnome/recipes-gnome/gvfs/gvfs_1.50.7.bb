@@ -20,7 +20,7 @@ RDEPENDS:${PN} += "gsettings-desktop-schemas"
 
 SRC_URI = "https://download.gnome.org/sources/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.xz;name=archive"
 
-SRC_URI[archive.sha256sum] = "ab9059a676a537edbea21388c2aafe1a7e2c8f1ac2dfdc6d64550233075457fd"
+SRC_URI[archive.sha256sum] = "72add2c109454e3b43025f249b7caa4836ff6f77705e895f442063a273a7f231"
 
 # depends on gsettings-desktop-schemas->gcr->gtk+3-> x11
 REQUIRED_DISTRO_FEATURES = "x11"
