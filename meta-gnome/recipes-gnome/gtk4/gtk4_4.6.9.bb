@@ -33,7 +33,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
 UPSTREAM_CHECK_REGEX = "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
 
 SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz"
-SRC_URI[sha256sum] = "ff263af609a50eb76056653592d929459aef4819a444c436f6d52c6f63c1faec"
+SRC_URI[sha256sum] = "decad346d6a94141ab667c43483e7a4b97c7969c23d589dd63cd6a49498a43d0"
 
 S = "${WORKDIR}/gtk-${PV}"
 
