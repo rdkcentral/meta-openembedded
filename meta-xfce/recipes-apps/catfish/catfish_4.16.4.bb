@@ -7,7 +7,7 @@ inherit xfce-app python_setuptools_build_meta gtk-icon-cache mime-xdg
 
 DEPENDS += "python3-distutils-extra-native"
 
-SRC_URI[sha256sum] = "e9a99a62d10981391508dd43f3cbfa2d50a69bd6b7d1eeef7d30ba4c673dcfda"
+SRC_URI[sha256sum] = "6e5c01c534de7a8ce911965c4cd298c5b5d2079e0bc29c91b1e310c9884bb5fc"
 
 FILES:${PN} += "${datadir}/metainfo"
 
