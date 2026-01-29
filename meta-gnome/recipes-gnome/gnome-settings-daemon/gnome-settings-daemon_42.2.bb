@@ -44,3 +44,6 @@ FILES:${PN} += " \
     ${systemd_user_unitdir} \
     ${libdir}/gnome-settings-daemon-42/libgsd.so \
 "
+
+# mitigation would be a new feature, not a CVE
+CVE_CHECK_IGNORE += "CVE-2024-38394"
