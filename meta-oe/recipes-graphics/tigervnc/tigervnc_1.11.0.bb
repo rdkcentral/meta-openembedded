@@ -118,3 +118,5 @@ FILES:${PN} += " \
 "
 
 FILES:${PN}-dbg += "${libdir}/xorg/modules/extensions/.debug"
+
+CVE_STATUS[CVE-2014-8241] = "fixed-version: The vulnerable code is not present in the used version (1.11.0)"
