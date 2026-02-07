@@ -24,7 +24,7 @@ inherit gnomebase lib_package gettext features_check gi-docgen gtk-icon-cache go
 REQUIRED_DISTRO_FEATURES = "opengl"
 
 SRC_URI = "https://download.gnome.org/sources/gtksourceview/5.12/${PNAME}-${PV}.tar.xz"
-SRC_URI[sha256sum] = "daf32ff5d3150d6385917d3503a85b9e047ba158b2b03079314c9c00813fa01f"
+SRC_URI[sha256sum] = "84c82aad985c5aadae7cea7804904a76341ec82b268d46594c1a478f39b42c1f"
 
 GIR_MESON_ENABLE_FLAG = 'enabled'
 GIR_MESON_DISABLE_FLAG = 'disabled'
