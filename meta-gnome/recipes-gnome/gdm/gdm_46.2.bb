@@ -20,7 +20,7 @@ GIR_MESON_OPTION = ""
 
 inherit gnomebase gsettings pkgconfig gobject-introspection gettext systemd useradd itstool gnome-help features_check
 
-SRC_URI[archive.sha256sum] = "8d6cb52176eca48b6bbf1cfe2fdae08d9677b5a0f2bca600dee4604de0dd1efc"
+SRC_URI[archive.sha256sum] = "4ee345422a16537150cd842450cda52b2ca86984bc51ee20cdc025dcf4bd268b"
 
 EXTRA_OEMESON = " \
     -Dplymouth=disabled \
