@@ -22,7 +22,7 @@ DEPENDS = " \
 
 inherit gnomebase gsettings gobject-introspection gi-docgen gettext features_check mime-xdg gtk-icon-cache
 
-SRC_URI[archive.sha256sum] = "23bdaa9a85466c5937a89daddd080ed03bcc2b49e8b64af607206353bde82fe3"
+SRC_URI[archive.sha256sum] = "ba5d53df39a155562df971ef5e31e827074905d0c48eab1eb2421a10284b990d"
 
 REQUIRED_DISTRO_FEATURES = "x11 opengl gobject-introspection-data"
 
@@ -52,3 +52,8 @@ FILES:${PN} += " \
 # mandatory - not checked during configuration:
 # | (org.gnome.Nautilus:863): GLib-GIO-ERROR **: 21:03:52.326: Settings schema 'org.freedesktop.Tracker.Miner.Files' is not installed
 RDEPENDS:${PN} += "tracker-miners bubblewrap"
+
+# This override is from gnomebase.bbclass. The original expects only a minor
+# version in the version number, and it breaks if there is a patch version also.
+def gnome_verdir(v):
+    return v.split(".")[0] or v
