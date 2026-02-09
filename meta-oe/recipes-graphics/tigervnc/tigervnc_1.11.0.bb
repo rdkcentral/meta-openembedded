@@ -123,4 +123,6 @@ FILES:${PN}-dbg += "${libdir}/xorg/modules/extensions/.debug"
 CVE_CHECK_IGNORE += "CVE-2014-8241"
 
 # fixed-version: The vulnerable code is not present in the used xserver version (21.1.18)
-CVE_CHECK_IGNORE += "CVE-2023-6377 CVE-2023-6478"
+CVE_CHECK_IGNORE += "CVE-2023-6377 CVE-2023-6478 CVE-2025-26594 CVE-2025-26595 \
+CVE-2025-26596 CVE-2025-26597 CVE-2025-26598 CVE-2025-26599 CVE-2025-26600 \
+CVE-2025-26601"
