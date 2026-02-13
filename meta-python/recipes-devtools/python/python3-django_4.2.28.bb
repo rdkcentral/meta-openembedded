@@ -3,7 +3,7 @@ require python-django.inc
 inherit pypi setuptools3
 
 SRC_URI += "file://0001-add-back-setuptools-support.patch"
-SRC_URI[sha256sum] = "b865fbe0f4a3d1ee36594c5efa42b20db3c8bbb10dff0736face1c6e4bda5b92"
+SRC_URI[sha256sum] = "a4b9cd881991add394cafa8bb3b11ad1742d1e1470ba99c3ef53dc540316ccfe"
 
 RDEPENDS:${PN} += "\
     ${PYTHON_PN}-sqlparse \
