@@ -13,12 +13,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=44d1fcf70c7aa6991533c38daf7befa3"
 
 PE = "1"
 
-SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
-
-SRC_URI = "gitsm://github.com/ToruNiina/toml11.git;protocol=https;branch=main \
-           file://0001-Remove-whitespace-in-operator.patch \
-           file://run-ptest \
+SRC_URI = "\
+    gitsm://github.com/ToruNiina/toml11.git;protocol=https;branch=main;tag=v${PV} \
+    file://0001-Remove-whitespace-in-operator.patch \
+    file://run-ptest \
 "
+SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
 
 inherit cmake ptest
 
