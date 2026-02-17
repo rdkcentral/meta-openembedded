@@ -3,6 +3,7 @@ DESCRIPTION = "toml11 is a feature-rich TOML language library for \
                C++11/14/17/20."
 
 HOMEPAGE = "https://github.com/ToruNiina/toml11"
+BUGTRACKER = "https://github.com/ToruNiina/toml11/issues"
 
 SECTION = "libs"
 
