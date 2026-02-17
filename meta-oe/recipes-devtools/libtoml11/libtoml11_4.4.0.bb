@@ -4,6 +4,7 @@ DESCRIPTION = "toml11 is a feature-rich TOML language library for \
 
 HOMEPAGE = "https://github.com/ToruNiina/toml11"
 BUGTRACKER = "https://github.com/ToruNiina/toml11/issues"
+CVE_PRODUCT = "libtoml11"
 
 SECTION = "libs"
 
