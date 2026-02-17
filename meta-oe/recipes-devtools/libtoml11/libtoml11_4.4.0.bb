@@ -21,7 +21,7 @@ SRC_URI = "gitsm://github.com/ToruNiina/toml11.git;protocol=https;branch=main \
 inherit cmake ptest
 
 EXTRA_OECMAKE += "-DTOML11_PRECOMPILE=ON \
-                  -DTOML11_BUILD_TESTS=${@bb.utils.contains("DISTRO_FEATURES", "ptest", "ON", "OFF", d)} \
+                  -DTOML11_BUILD_TESTS=${@bb.utils.contains("PTEST_ENABLED", "1", "ON", "OFF", d)} \
 "
 
 ALLOW_EMPTY:${PN} = "1"
