@@ -11,7 +11,7 @@ fi
 # Note: zram is only allocated when used. When swapped pages compress with a
 # a 2:1 ratio zram will require 50% of system memory (while allowing to use
 # 150% memory).
-ZRAM_SIZE_PERCENT=100
+ZRAM_SIZE_PERCENT=60
 ZRAM_ALGORITHM=lz4
 
 [ -f /etc/default/zram ] && . /etc/default/zram || true
