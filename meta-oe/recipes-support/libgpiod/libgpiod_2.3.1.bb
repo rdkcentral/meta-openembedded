@@ -27,6 +27,7 @@ SRC_URI += " \
     file://gpio-manager.init \
     file://fix_gpiodbus_license.patch \
     file://0001-dbus-tests-wait-for-each-event-in-test_monitor_all_l.patch \
+    file://0002-dbus-tests-wait-for-each-event-in-test_monitor_multi.patch \
 "
 
 SRC_URI[sha256sum] = "e3a358a90a9204ff16f92b6f4028ed91460b1926f10589eb54b3566484650a30"
