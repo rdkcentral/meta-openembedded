@@ -9,13 +9,11 @@ LIC_FILES_CHKSUM = " \
 
 DEPENDS = "glib-2.0 glib-2.0-native"
 
-inherit autotools pkgconfig bash-completion
+inherit autotools pkgconfig bash-completion gobject-introspection
 
 SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BPN}-${PV}.tar.xz \
            "
-
-SRC_URI[md5sum] = "7e6e49fddb9ae2b6fcde14619d6cfe49"
-SRC_URI[sha256sum] = "2d3b91a2b8a882b17b16403c9ef7bdce522db4f0ceaa3e4dff76033885428b69"
+SRC_URI[sha256sum] = "be01ece0ea2c2194cbea5744bf5aaf06c04ba5fb7ec7887a13116c76d114fedd"
 
 PACKAGECONFIG ??= "udev mbim"
 PACKAGECONFIG[udev] = ",--without-udev,libgudev"

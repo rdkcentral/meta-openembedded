@@ -13,6 +13,8 @@ SRC_URI[sha256sum] = "c88adec966096a81136dda91b4bd19c27aae06df4d45a7f547a8e50d72
 
 S = "${WORKDIR}/iperf-${PV}"
 
+RPROVIDES_${PN} = " iperf"
+
 inherit autotools pkgconfig
 
 EXTRA_OECONF = "--exec-prefix=${STAGING_DIR_HOST}${layout_exec_prefix}"
