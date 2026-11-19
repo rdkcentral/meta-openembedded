@@ -6,60 +6,47 @@ Quagga is a fork of GNU Zebra which was developed by Kunihiro \
 Ishiguro. The Quagga tree aims to build a more involved community \
 around Quagga than the current centralised model of GNU Zebra."
 HOMEPAGE = "http://www.nongnu.org/quagga/"
-SECTION = "net"
+SECTION = "network"
 LICENSE = "GPL-2.0 & LGPL-2.0"
-DEPENDS = "readline ncurses perl-native"
+DEPENDS = "readline ncurses perl-native c-ares"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'snmp', 'net-snmp', '', d)}"
 SNMP_CONF="${@bb.utils.contains('DISTRO_FEATURES', 'snmp', '--enable-snmp', '', d)}"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=81bcece21748c91ba9992349a91ec11d \
                     file://COPYING.LIB;md5=01ef24401ded36cd8e5d18bfe947240c"
+INC_PR = "r2"
 
 # the "ip" command from busybox is not sufficient (flush by protocol flushes all routes)
 RDEPENDS_${PN} += "iproute2"
 
 QUAGGASUBDIR = ""
-# ${QUAGGASUBDIR} is deal with old versions. Set to "/attic" for old
-# versions and leave it empty for recent versions.
-SRC_URI = "${SAVANNAH_GNU_MIRROR}/quagga${QUAGGASUBDIR}/quagga-${PV}.tar.gz; \
+
+SRC_URI = "http://download.savannah.gnu.org/releases/quagga${QUAGGASUBDIR}/quagga-${PV}.tar.gz;name=quagga-${PV} \
            file://quagga.init \
            file://quagga.default \
            file://watchquagga.init \
            file://watchquagga.default \
            file://volatiles.03_quagga \
            file://quagga.pam \
-           file://ripd-fix-two-bugs-after-received-SIGHUP.patch \
            file://quagga-Avoid-duplicate-connected-address.patch \
-           file://bgpd.service \
-           file://isisd.service \
-           file://ospf6d.service \
-           file://ospfd.service \
-           file://ripd.service \
-           file://ripngd.service \
-           file://zebra.service \
+           file://rtadv.patch  \
+           file://quagga_crash_fix.patch \
 "
+
+MIRRORS += "http://download.savannah.gnu.org/releases/ http://download-mirror.savannah.gnu.org/releases/ \n"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[cap] = "--enable-capabilities,--disable-capabilities,libcap"
 PACKAGECONFIG[pam] = "--with-libpam, --without-libpam, libpam"
 
-inherit autotools update-rc.d useradd systemd
-
-SYSTEMD_PACKAGES = "${PN} ${PN}-bgpd ${PN}-isisd ${PN}-ospf6d ${PN}-ospfd ${PN}-ripd ${PN}-ripngd"
-SYSTEMD_SERVICE_${PN}-bgpd = "bgpd.service"
-SYSTEMD_SERVICE_${PN}-isisd = "isisd.service"
-SYSTEMD_SERVICE_${PN}-ospf6d = "ospf6d.service"
-SYSTEMD_SERVICE_${PN}-ospfd = "ospfd.service"
-SYSTEMD_SERVICE_${PN}-ripd = "ripd.service"
-SYSTEMD_SERVICE_${PN}-ripngd = "ripngd.service"
-SYSTEMD_SERVICE_${PN} = "zebra.service"
+inherit autotools update-rc.d useradd pkgconfig
 
 EXTRA_OECONF = "--sysconfdir=${sysconfdir}/quagga \
                 --localstatedir=${localstatedir}/run/quagga \
                 --enable-exampledir=${docdir}/quagga/examples/ \
                 --enable-vtysh \
                 --enable-isisd \
-                ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '--enable-watchquagga', '--disable-watchquagga', d)} \
+		--enable-watchquagga \
                 --enable-ospfclient=yes \
                 --enable-multipath=64 \
                 --enable-user=quagga \
@@ -88,7 +75,7 @@ do_install () {
     done
 
     for f in bgpd vtysh isisd ospfd ripngd zebra ripd ospf6d; do
-        touch ${D}${sysconfdir}/quagga/$f.conf
+	touch ${D}${sysconfdir}/quagga/$f.conf
     done
     chown quagga:quaggavty ${D}${sysconfdir}/quagga
     chown quagga:quagga ${D}${sysconfdir}/quagga/*.conf
@@ -120,46 +107,12 @@ do_install () {
         fi
     done
 
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        install -d ${D}${sysconfdir}/tmpfiles.d
-        echo "d /var/run/quagga 0755 quagga quagga -" \
-        > ${D}${sysconfdir}/tmpfiles.d/${BPN}.conf
-    fi
-
-    # Remove sysinit script if sysvinit is not in DISTRO_FEATURES
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'false', 'true', d)}; then
-        rm -rf ${D}${sysconfdir}/init.d/
-        rm -f ${D}${sysconfdir}/default/watchquagga
-    fi
-
-    install -d ${D}${systemd_unitdir}/system
-    for i in bgpd isisd ospf6d ospfd ripd ripngd zebra; do
-        install -m 0644 ${WORKDIR}/$i.service ${D}${systemd_unitdir}/system
-    done
-    sed -e 's,@BASE_SBINDIR@,${base_sbindir},g' \
-        -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-        -e 's,@SBINDIR@,${sbindir},g' \
-        -e 's,@base_bindir@,${base_bindir},g' \
-        -e 's,@localstatedir@,${localstatedir},g' \
-        -i ${D}${systemd_unitdir}/system/*.service
-}
-
-DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd-systemctl-native', '', d)}"
-pkg_postinst_${PN} () {
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd sysvinit', 'true', 'false', d)}; then
-        if [ -n "$D" ]; then
-            OPTS="--root=$D"
-        fi
-        systemctl $OPTS mask quagga.service
-    fi
 }
 
 # Split into a main package and separate per-protocol packages
 PACKAGE_BEFORE_PN = "${PN}-ospfd ${PN}-ospf6d ${PN}-bgpd \
                      ${PN}-ripd ${PN}-ripngd ${PN}-isisd \
-                     ${PN}-ospfclient ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '${PN}-watchquagga', '', d)}"
-
-RDEPENDS_${PN} += "${PN}-bgpd ${PN}-isisd ${PN}-ospf6d ${PN}-ospfd ${PN}-ripd ${PN}-ripngd"
+                     ${PN}-ospfclient ${PN}-watchquagga"
 
 FILES_${PN}-ospfd       = "${sbindir}/ospfd ${libdir}/libospf.so.*"
 FILES_${PN}-ospf6d      = "${sbindir}/ospf6d"

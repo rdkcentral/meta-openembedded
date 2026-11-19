@@ -1,0 +1,45 @@
+diff -ruN luasocket.orig/src/makefile luasocket/src/makefile
+--- luasocket.orig/src/makefile	2019-02-13 00:59:25.921404510 +0000
++++ luasocket/src/makefile	2019-02-13 01:05:36.284001621 +0000
+@@ -171,8 +171,8 @@
+ 	-DUNIX_API='__attribute__((visibility("default")))' \
+ 	-DMIME_API='__attribute__((visibility("default")))'
+ CFLAGS_linux= -I$(LUAINC) $(DEF) -Wall -Wshadow -Wextra \
+-	-Wimplicit -O2 -ggdb3 -fpic -fvisibility=hidden
+-LDFLAGS_linux=-O -shared -fpic -o 
++	-Wimplicit -O2 -ggdb3 -fPIC -fvisibility=default
++LDFLAGS_linux=-shared -O -fPIC -o 
+ LD_linux=gcc
+ SOCKET_linux=usocket.o
+ 
+@@ -265,11 +265,11 @@
+ #------
+ # Settings selected for platform
+ #
+-CC=$(CC_$(PLAT))
++CC?=$(CC_$(PLAT))
+ DEF=$(DEF_$(PLAT))
+ CFLAGS=$(MYCFLAGS) $(CFLAGS_$(PLAT))
+ LDFLAGS=$(MYLDFLAGS) $(LDFLAGS_$(PLAT))
+-LD=$(LD_$(PLAT))
++LD?=$(LD_$(PLAT))
+ LUAINC= $(LUAINC_$(PLAT))
+ LUALIB= $(LUALIB_$(PLAT))
+ 
+@@ -395,12 +395,16 @@
+ 	$(INSTALL_DATA) $(TO_SOCKET_LDIR) $(INSTALL_SOCKET_LDIR)
+ 	$(INSTALL_DIR) $(INSTALL_SOCKET_CDIR)
+ 	$(INSTALL_EXEC) $(SOCKET_SO) $(INSTALL_SOCKET_CDIR)/core.$(SO)
++	$(INSTALL_EXEC) $(SOCKET_SO) $(INSTALL_TOP_CDIR)/libluasocket.$(SO)
+ 	$(INSTALL_DIR) $(INSTALL_MIME_CDIR)
+ 	$(INSTALL_EXEC) $(MIME_SO) $(INSTALL_MIME_CDIR)/core.$(SO)
++	$(INSTALL_EXEC) $(MIME_SO) $(INSTALL_TOP_CDIR)/libluamime.$(SO)
+ 
+ install-unix: install
+ 	$(INSTALL_EXEC) $(UNIX_SO) $(INSTALL_SOCKET_CDIR)/$(UNIX_SO)
++	$(INSTALL_EXEC) $(UNIX_SO) $(INSTALL_TOP_CDIR)/libluaunix.$(SO)
+ 	$(INSTALL_EXEC) $(SERIAL_SO) $(INSTALL_SOCKET_CDIR)/$(SERIAL_SO)
++	$(INSTALL_EXEC) $(SERIAL_SO) $(INSTALL_TOP_CDIR)/libluaserial.$(SO)
+ 
+ local:
+ 	$(MAKE) install INSTALL_TOP_CDIR=.. INSTALL_TOP_LDIR=..

@@ -1,0 +1,11 @@
+Index: net-snmp-5.8/include/net-snmp/library/snmpDTLSUDPDomain.h
+===================================================================
+--- net-snmp-5.8.orig/include/net-snmp/library/snmpDTLSUDPDomain.h
++++ net-snmp-5.8/include/net-snmp/library/snmpDTLSUDPDomain.h
+@@ -1,5 +1,6 @@
+ #ifndef _SNMPDTLSUDPDOMAIN_H
+ #define _SNMPDTLSUDPDOMAIN_H
++#define SECOND_APPVERIFY_COOKIE_CB_ARG_QUALIFIER const
+ 
+ #if HAVE_NETINET_IN_H
+ #include <netinet/in.h>

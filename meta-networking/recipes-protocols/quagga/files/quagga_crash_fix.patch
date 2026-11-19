@@ -1,0 +1,81 @@
+Date: Jan 11, 2018 5:21 PM
+
+From: a9d42424741a6d2106aed6f80bad400bc7fa3e5c Feb 22, 2018 2:59 PM
+
+Subject: [PATCH] RDKB-15501: Upgrade Quagga to 1.2.1 or later
+
+	Upgrading Quagga to 1.2.1. While upgrading to newer
+version zebra crashed. Added fix for the same.
+rtadv.patch is now added here instead of duplication in other layers.
+Removing unrecognised configure options.
+     
+Source: COMCAST 
+
+License: GPL-2.0-or-later
+
+Upstream-Status: Pending 
+
+Signed-off-by: Livin Sunny <livin_sunny2@comcast.com>
+---
+
+Index: quagga-1.2.1/lib/privs.c
+===================================================================
+--- quagga-1.2.1.orig/lib/privs.c
++++ quagga-1.2.1/lib/privs.c
+@@ -669,8 +669,10 @@ zprivs_init(struct zebra_privs_t *zprivs
+ {
+   struct passwd *pwentry = NULL;
+   struct group *grentry = NULL;
+-  gid_t groups[NGROUPS_MAX];
+-  int i, ngroups = 0;
++  /*gid_t groups[NGROUPS_MAX];*/
++  gid_t *groups;
++  long ngroups_max, ngroups = 0;
++  int i;
+   int found = 0;
+ 
+   if (!zprivs)
+@@ -688,6 +690,15 @@ zprivs_init(struct zebra_privs_t *zprivs
+       return;
+     }
+ 
++  /*Get the maximum supplementaty groups at run time*/
++  ngroups_max = sysconf(_SC_NGROUPS_MAX);
++  groups = (gid_t *)malloc(sizeof(gid_t)*ngroups_max);
++
++  if (!groups)
++  {
++      fprintf(stderr,"Cannot allocate memory with  %ld \n", ngroups_max);
++      exit (1);
++  }
+   if (zprivs->user)
+     {
+       if ( (pwentry = getpwnam (zprivs->user)) == NULL )
+@@ -718,7 +729,8 @@ zprivs_init(struct zebra_privs_t *zprivs
+ 
+   if (zprivs->user)
+     {
+-      ngroups = sizeof(groups);
++      /* Change the logic */
++      ngroups = ( sizeof(gid_t)*ngroups_max );
+       if ( (ngroups = getgrouplist (zprivs->user, zprivs_state.zgid, groups, &ngroups )) < 0 )
+         {
+           /* cant use log.h here as it depends on vty */
+@@ -748,7 +760,7 @@ zprivs_init(struct zebra_privs_t *zprivs
+ 		       zprivs->user, zprivs->vty_group);
+               exit (1);
+             }
+-          if ( i >= ngroups && ngroups < (int) ZEBRA_NUM_OF(groups) )
++          if ( i >= ngroups && ngroups < ngroups_max )
+             {
+               groups[i] = zprivs_state.vtygrp;
+             }
+@@ -770,6 +782,8 @@ zprivs_init(struct zebra_privs_t *zprivs
+           exit (1);
+         }
+     }
++  /* we are done with groups, releasing the memory*/
++  free(groups);
+ 
+   if (zprivs_state.zgid)
+     {

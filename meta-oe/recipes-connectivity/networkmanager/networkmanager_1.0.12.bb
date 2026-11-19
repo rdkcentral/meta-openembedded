@@ -17,6 +17,7 @@ SRC_URI = " \
     file://0002-add-pkg-config-for-libgcrypt.patch \
     file://0006-Fix-nm-version-macro-includes.patch \
     file://0002-networkmanager-fixed-issues-of-NetworkManager-wait-o.patch \
+    file://0001-musl-build-fixes.patch \
 "
 SRC_URI[md5sum] = "ebb273456a81ccf9dfaf2461061b0e96"
 SRC_URI[sha256sum] = "3a470f8c60109b1acb5784ddc2423501706b5fe34c793a6faee87e591eb04a9e"

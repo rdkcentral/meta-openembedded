@@ -1,0 +1,64 @@
+From 465280de93c4980e2d04e4b7e694bbb6ed9b434f Mon Sep 17 00:00:00 2001
+From: Balaji Punnuru <balaji_punnuru@cable.comcast.com>
+Date: Fri, 17 May 2019 23:32:58 -0400
+Subject: [PATCH] Added support libcares.pc generation
+
+Signed-off-by: Balaji Punnuru <balaji_punnuru@cable.comcast.com>
+---
+ CMakeLists.txt    |  6 ++++++
+ libcares.pc.cmake | 20 ++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 libcares.pc.cmake
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 364b6c7..6a63e82 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,6 +17,9 @@ INCLUDE (GNUInstallDirs)
+ 
+ PROJECT (c-ares C)
+ 
++# Set this version before release
++SET (CARES_VERSION "1.13.0")
++
+ # This is for libtool compatibility, and specified in a form that is easily
+ # translatable from libtool (even if the actual form doesn't make sense).
+ # For instance, in an autotools project, in Makefile.am there is a line that
+@@ -623,6 +626,9 @@ IF (CARES_INSTALL)
+ 	)
+ 	INSTALL (EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKECONFIG_INSTALL_DIR} NAMESPACE ${PROJECT_NAME}::)
+ 	INSTALL (FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" DESTINATION ${CMAKECONFIG_INSTALL_DIR})
++
++	CONFIGURE_FILE("libcares.pc.cmake" "libcares.pc" @ONLY)
++	INSTALL (FILES "${CMAKE_CURRENT_BINARY_DIR}/libcares.pc" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+ ENDIF ()
+ 
+ # Legacy chain-building variables (provided for compatibility with old code).
+diff --git a/libcares.pc.cmake b/libcares.pc.cmake
+new file mode 100644
+index 0000000..d5532d5
+--- /dev/null
++++ b/libcares.pc.cmake
+@@ -0,0 +1,20 @@
++#***************************************************************************
++# Project        ___       __ _ _ __ ___  ___ 
++#               / __|____ / _` | '__/ _ \/ __|
++#              | (_|_____| (_| | | |  __/\__ \
++#               \___|     \__,_|_|  \___||___/
++#
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=${prefix}/@CMAKE_INSTALL_BINDIR@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
++
++Name: c-ares
++URL: https://c-ares.haxx.se/
++Description: asynchronous DNS lookup library
++Version: @CARES_VERSION@
++Requires: 
++Requires.private: 
++Cflags: -I${includedir} @CPPFLAG_CARES_STATICLIB@
++Libs: -L${libdir} -lcares
++Libs.private: @CARES_PRIVATE_LIBS@
+-- 
+2.1.4

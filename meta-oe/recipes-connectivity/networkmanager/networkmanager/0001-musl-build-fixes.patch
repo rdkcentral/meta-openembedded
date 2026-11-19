@@ -1,0 +1,97 @@
+From be0d7d0a156c1a5b8d869d39095d5668d53fad68 Mon Sep 17 00:00:00 2001
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 11 Dec 2017 16:45:28 -0800
+Subject: [PATCH] musl build fixes
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ clients/tui/nmt-device-entry.c                  | 2 +-
+ libnm-core/nm-utils.h                           | 2 +-
+ libnm-util/nm-setting-bridge.c                  | 2 +-
+ src/dhcp-manager/systemd-dhcp/src/shared/util.c | 2 +-
+ src/platform/nm-linux-platform.c                | 3 ++-
+ src/platform/nm-platform.h                      | 1 +
+ 6 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/clients/tui/nmt-device-entry.c b/clients/tui/nmt-device-entry.c
+index 2af5e58..a9ceca4 100644
+--- a/clients/tui/nmt-device-entry.c
++++ b/clients/tui/nmt-device-entry.c
+@@ -38,7 +38,7 @@
+ 
+ #include <string.h>
+ #include <sys/socket.h>
+-#include <linux/if_arp.h>
++#include <net/if_arp.h>
+ 
+ #include <glib/gi18n-lib.h>
+ #include <NetworkManager.h>
+diff --git a/libnm-core/nm-utils.h b/libnm-core/nm-utils.h
+index e97b823..8bcf00a 100644
+--- a/libnm-core/nm-utils.h
++++ b/libnm-core/nm-utils.h
+@@ -30,7 +30,7 @@
+ #include <netinet/in.h>
+ 
+ /* For ETH_ALEN and INFINIBAND_ALEN */
+-#include <linux/if_ether.h>
++#include <netinet/if_ether.h>
+ #include <linux/if_infiniband.h>
+ 
+ #include "nm-core-enum-types.h"
+diff --git a/libnm-util/nm-setting-bridge.c b/libnm-util/nm-setting-bridge.c
+index bdaa75f..5036e70 100644
+--- a/libnm-util/nm-setting-bridge.c
++++ b/libnm-util/nm-setting-bridge.c
+@@ -26,7 +26,7 @@
+ #include <stdlib.h>
+ #include <dbus/dbus-glib.h>
+ #include <glib/gi18n-lib.h>
+-#include <linux/if_ether.h>
++#include <netinet/if_ether.h>
+ 
+ #include "nm-setting-bridge.h"
+ #include "nm-param-spec-specialized.h"
+diff --git a/src/dhcp-manager/systemd-dhcp/src/shared/util.c b/src/dhcp-manager/systemd-dhcp/src/shared/util.c
+index 05d4eb7..9be8cf0 100644
+--- a/src/dhcp-manager/systemd-dhcp/src/shared/util.c
++++ b/src/dhcp-manager/systemd-dhcp/src/shared/util.c
+@@ -44,7 +44,7 @@
+ #include <termios.h>
+ #include <stdarg.h>
+ #include <sys/inotify.h>
+-#include <sys/poll.h>
++#include <poll.h>
+ #include <ctype.h>
+ #include <sys/prctl.h>
+ #include <sys/utsname.h>
+diff --git a/src/platform/nm-linux-platform.c b/src/platform/nm-linux-platform.c
+index 4e45e0a..fe644d1 100644
+--- a/src/platform/nm-linux-platform.c
++++ b/src/platform/nm-linux-platform.c
+@@ -26,8 +26,9 @@
+ #include <dlfcn.h>
+ #include <netinet/icmp6.h>
+ #include <netinet/in.h>
++#include <netinet/if_ether.h>
+ #include <linux/ip.h>
+-#include <linux/if_arp.h>
++#include <net/if_arp.h>
+ #include <linux/if_link.h>
+ #include <linux/if_tun.h>
+ #include <linux/if_tunnel.h>
+diff --git a/src/platform/nm-platform.h b/src/platform/nm-platform.h
+index 3219dd5..8cefeaf 100644
+--- a/src/platform/nm-platform.h
++++ b/src/platform/nm-platform.h
+@@ -24,6 +24,7 @@
+ #include <glib-object.h>
+ #include "nm-glib-compat.h"
+ #include <netinet/in.h>
++#include <netinet/if_ether.h>
+ #include <linux/if.h>
+ #include <linux/if_addr.h>
+ 
+-- 
+1.9.1
+
