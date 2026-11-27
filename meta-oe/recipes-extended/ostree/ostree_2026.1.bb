@@ -87,11 +87,10 @@ PACKAGECONFIG[rofiles-fuse] = "--enable-rofiles-fuse, --disable-rofiles-fuse, fu
 PACKAGECONFIG[selinux] = "--with-selinux, --without-selinux, libselinux, bubblewrap"
 PACKAGECONFIG[smack] = "--with-smack, --without-smack, smack"
 PACKAGECONFIG[soup3] = "--with-soup3, --without-soup3, libsoup"
-PACKAGECONFIG[static] = ""
+PACKAGECONFIG[static] = "--with-static-compiler='${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}'"
 PACKAGECONFIG[systemd] = "--with-libsystemd --with-systemdsystemunitdir=${systemd_system_unitdir}, --without-libsystemd, systemd"
 
 EXTRA_OECONF = " \
-    ${@bb.utils.contains('PACKAGECONFIG', 'static', '--with-static-compiler=\'${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}\'', '', d)} \
     --without-soup \
 "
 
